@@ -1,0 +1,54 @@
+<div class="p-5">
+    <h2>{{editMode? 'Update place details' : 'Add a new place'}}</h2>
+    <form novalidate [formGroup]="form" (ngSubmit)="submitForm(form)" (reset)="resetForm()">
+        <div class="col-sm-4">
+            <div class="form-check">
+                <input id="visit-status" type="checkbox" class="form-check-input" formControlName="isVisited">
+                <label for="visit-status" class="form-check-label">Visited?</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Name: <span style="color: #cc0000">*</span></label>
+                <input id="name" type="text" class="form-control" formControlName="name">
+            </div>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                Name is required.
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category: <span style="color: #cc0000">*</span> </label>
+                <select id="category" class="form-control" formControlName="category">
+                    <option>Food & Drink</option>
+                    <option>Travel</option>
+                    <option>Entertainment Venues</option>
+                </select>
+                <div *ngIf="category.invalid && (category.dirty || category.touched)" class="alert alert-danger">
+                    Category is required.
+                </div>
+            </div>
+            <div class="form-group">
+
+                <label for="description">Description: <span style="color: #cc0000">*</span></label>
+                <input id="description" type="text" class="form-control" formControlName="description">
+                <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="description.errors?.required">Description is required.</div>
+                    <div *ngIf="description.errors?.minlength">Description must be at least 5 characters long.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location">Location: <span style="color: #cc0000">*</span></label>
+                <input id="location" type="text" class="form-control" formControlName="location">
+                <div *ngIf="location.invalid && (location.dirty || location.touched)" class="alert alert-danger">
+                    Location is required
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="formSubmitted && !form.valid" >{{editMode? 'Update' :
+            'Add'}}</button>
+        <button class="btn btn-secondary ml-2" (click)="onCancel()">Cancel</button>
+        <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger">
+            Please ensure all mandatory fields are provided.
+        </div>
+
+    </form>
+</div>

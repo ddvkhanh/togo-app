@@ -1,0 +1,59 @@
+<div class="btn-group toggle-menu" role="group" data-toggle="buttons">
+    <label class="btn btn-outline-primary toggle-item">
+        <input type="radio" name="options" id="option1" value="all" [(ngModel)]="selectedVisitStatus" checked> All
+    </label>
+    <label class="btn btn-outline-primary toggle-item">
+        <input type="radio" name="options" id="option2" value="active" [(ngModel)]="selectedVisitStatus"> Active
+    </label>
+    <label class="btn btn-outline-primary toggle-item">
+        <input type="radio" name="options" id="option3" value="visited" [(ngModel)]="selectedVisitStatus"> Visited
+    </label>
+</div>
+
+<div class="table-container">
+    <div class="p-5">
+        <div>
+            <label class="p-2">Category: </label>
+            <select [(ngModel)]="selectedCategory">
+                <option>All</option>
+                <option *ngFor="let category of getCategories(getPlaces())">{{category}}</option>
+
+            </select>
+        </div>
+
+        <table class="styled-table">
+            <thead class="text-center">
+                <tr>
+                    <th></th>
+                    <th>Visited?</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let place of getPlaces() | category:selectedCategory  | visitStatus: selectedVisitStatus; let i = index"
+                    [ngClass]="{completed: place.isVisited}">
+                    <td>{{i+1}}</td>
+                    <td>
+                        <input class="toggle" type="checkbox" [checked]="place.isVisited" disabled/>
+                    </td>
+                    <td>{{ place.name }}</td>
+                    <td>{{ place.category }}</td>
+                    <td>{{ place.description }}</td>
+                    <td>{{ place.location }}</td>
+                    <td class="action-column">
+                        <button class="btn btn-info btn-action"
+                            routerLink="/form/edit/{{ place._id }}" value="{{ place._id }}"><i class="fas fa-edit"></i>
+                        
+                        </button>
+                        <button class="btn btn-danger mx-2 btn-action" (click)="deletePlace(place._id)"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-add" routerLink="/form/create" (click)="onNewPlace()"><i class="fas fa-plus"></i></button>
+    </div>
+</div>

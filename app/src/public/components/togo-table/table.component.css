@@ -1,0 +1,82 @@
+.toggle-menu {
+  max-width: 300px;
+  margin: auto;
+  display: flex;
+}
+
+.toggle-item {
+  width: 100px;
+  color: #2EB7F2;
+  border-color: #2EB7F2;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  border-color: #2EB7F2;
+  background-color: #2EB7F2;
+}
+
+.action-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px auto;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #E38B6B;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+input .toggle {
+  text-align: center;
+}
+
+.table-container {
+  width: 70%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.btn-add {
+  color: #fff;
+  background-color: #229981;
+  border-color: #219976;
+}
+
+.btn-add:hover{
+  background-color: #1B7A67;
+}
