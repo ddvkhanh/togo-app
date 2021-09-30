@@ -81,11 +81,9 @@ app.delete("/api/togo/:id", async (req, res) => {
 });
 
 //Connect MongoDB
-const MongoClient = require("mongodb").MongoClient;
-const client = await new MongoClient(process.env.DB_CONNECTION_STRING,{ useNewUrlParser: true, useUnifiedTopology: true});
- client.connect();
-mongoose.connection.once('open', () => { console.log('MongoDB Connected'); });
-mongoose.connection.on('error', (err) => { console.log('MongoDB connection error: ', err); }); 
+mongoose.connect(
+  process.env.DB_CONNECTION_STRING,
+  { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.error(error));
 
 //PORT
 const port = process.env.PORT || 3000;
