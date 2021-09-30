@@ -92,7 +92,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
 const path = require('path');
-app.use(express.static(path.join(__dirname, '../app/dist')))
+app.use(express.static(path.join(__dirname, '../app/dist/togosApp')))
 
 app.get('/*', function(req,res) {
   res.sendFile(path.join(__dirname+'/../app/dist/togosApp/index.html'));
