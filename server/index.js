@@ -10,41 +10,6 @@ const app = express();
 
 app.use(express.json());
 
-// const TODOS = [
-//   {
-//     id: 1,
-//     isVisited: false,
-//     name: "Daylesford Lake",
-//     category: "Daytrip",
-//     description: "Pretty in autumn",
-//     location: "Daylesford",
-//   },
-//   {
-//     id: 2,
-//     isVisited: false,
-//     name: "Universal Restaurant",
-//     category: "Restaurant",
-//     description: "Best value chicken parma	",
-//     location: "Carlton - CBD",
-//   },
-//   {
-//     id: 3,
-//     isVisited: false,
-//     name: "Wilson Prom",
-//     category: "Daytrip",
-//     description: "Camping with wombats",
-//     location: "Wilson Prom",
-//   },
-//   {
-//     id: 4,
-//     isVisited: false,
-//     name: "Ribs and Burger",
-//     category: "Restaurant",
-//     description: "Best thickshakes and ribs",
-//     location: "Hawthorn",
-//   },
-// ];
-
 //GET all places
 app.get("/api/togo", async (req, res) => {
   try {
@@ -125,3 +90,11 @@ mongoose.connect(
 //PORT
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+const path = requre('path');
+app.use(express.static(path.join(__dirname, '../app/dist')))
+
+app.get('/*', function(req,res) {
+  res.sendFile(path.join(__dirname+'/../app/dist/togosApp/index.html'));
+});
+
