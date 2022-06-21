@@ -48,7 +48,6 @@ export class TogoService {
         (p) => {
           this.places.push(p);
           alert('Create successfully');
-          this.router.navigateByUrl('/');
         },
         (error) => {
           alert('Error: Cannot submit form');

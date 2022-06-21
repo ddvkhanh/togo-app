@@ -11,15 +11,17 @@
 </div>
 
 <div class="table-container">
-    <div class="p-5">
-        <div>
-            <label class="p-2">Category: </label>
-            <select [(ngModel)]="selectedCategory">
-                <option>All</option>
-                <option *ngFor="let category of getCategories(getPlaces())">{{category}}</option>
+    <div>
+        <label class="py-2">Category: </label>
+        <select [(ngModel)]="selectedCategory">
+            <option>All</option>
+            <option *ngFor="let category of getCategories(getPlaces())">{{category}}</option>
 
-            </select>
-        </div>
+        </select>
+    </div>
+    <button class="btn btn-add" routerLink="/form/create" (click)="onNewPlace()"><i class="fas fa-plus"></i></button>
+
+    <div class="table-responsive">
 
         <table class="styled-table">
             <thead class="text-center">
@@ -54,6 +56,5 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-add" routerLink="/form/create" (click)="onNewPlace()"><i class="fas fa-plus"></i></button>
     </div>
 </div>
