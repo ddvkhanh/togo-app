@@ -1,0 +1,26 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+</head>
+
+  <nav class="navbar navbar-light sticky-top navbar-expand-lg" style="background-color: #45858C;">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light" type="button">
+        <i class="fa-solid fa-bars"></i></button>
+      <a class="navbar-brand nav-title">Saving list to go across Aus</a>
+      <form class="d-flex">
+        <input class="form-control me-2" id="search-text" name="search-text" type="search"
+          placeholder="Search place name" aria-label="Search" [(ngModel)]="searchText">
+        <button class="btn btn-outline-light" type="submit"><i
+            class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+
+    </div>
+  </nav>
+  <div class="row justify-content-end">
+
+  <ul class="list-group list-group-flush col-3">
+    <li class="list-group-item" *ngFor="let name of placeNames | search: searchText">{{name}}</li>
+  </ul>
+</div>

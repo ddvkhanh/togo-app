@@ -1,25 +1,27 @@
-<div class="btn-group toggle-menu" role="group" data-toggle="buttons">
-    <label class="btn btn-outline-primary toggle-item">
-        <input type="radio" name="options" id="option1" value="all" [(ngModel)]="selectedVisitStatus" checked> All
-    </label>
-    <label class="btn btn-outline-primary toggle-item">
-        <input type="radio" name="options" id="option2" value="active" [(ngModel)]="selectedVisitStatus"> To go
-    </label>
-    <label class="btn btn-outline-primary toggle-item">
-        <input type="radio" name="options" id="option3" value="visited" [(ngModel)]="selectedVisitStatus"> Visited
-    </label>
-</div>
+<app-menu [placeNames]="getPlaceNames()"></app-menu>
 
 <div class="table-container">
+    <div class="btn-group toggle-menu" role="group" data-toggle="buttons">
+        <input type="radio" class="btn-check" name="options" id="option1" value="all" [(ngModel)]="selectedVisitStatus" checked>
+        <label class="btn btn-outline-secondary" for="option1">All</label>
+    
+        <input type="radio" class="btn-check" name="options" id="option2" value="active" [(ngModel)]="selectedVisitStatus">
+        <label class="btn btn-outline-secondary" for="option2">To Go</label>
+    
+        <input type="radio" class="btn-check" name="options" id="option3" value="visited" [(ngModel)]="selectedVisitStatus">
+        <label class="btn btn-outline-secondary" for="option3">Visited</label>
+    </div>
+    
     <div>
-        <label class="py-2">Category: </label>
+        <label class="py-2 pe-1">Category: </label>
         <select [(ngModel)]="selectedCategory">
             <option>All</option>
             <option *ngFor="let category of getCategories(getPlaces())">{{category}}</option>
-
         </select>
     </div>
-    <button class="btn btn-add" routerLink="/form/create" (click)="onNewPlace()"><i class="fas fa-plus"></i></button>
+
+    <button class="btn btn-add" routerLink="/form/create"><i class="fas fa-plus"
+            aria-hidden="true"></i></button>
 
     <div class="table-responsive">
 
@@ -40,21 +42,23 @@
                     [ngClass]="{completed: place.isVisited}">
                     <td>{{i+1}}</td>
                     <td>
-                        <input class="toggle" type="checkbox" [checked]="place.isVisited" disabled/>
+                        <input class="toggle" type="checkbox" [checked]="place.isVisited" disabled />
                     </td>
                     <td>{{ place.name }}</td>
                     <td>{{ place.category }}</td>
                     <td>{{ place.description }}</td>
                     <td>{{ place.location }}</td>
                     <td class="action-column">
-                        <button class="btn btn-info btn-action"
-                            routerLink="/form/edit/{{ place._id }}" value="{{ place._id }}"><i class="fas fa-edit"></i>
-                        
+                        <button class="btn edit-btn btn-action" routerLink="/form/edit/{{ place._id }}"
+                            value="{{ place._id }}"><i class="fas fa-edit"></i>
+
                         </button>
-                        <button class="btn btn-danger mx-2 btn-action" (click)="deletePlace(place._id)"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn del-btn mx-2 btn-action" (click)="deletePlace(place._id)"><i
+                                class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <app-pagination></app-pagination>
 </div>

@@ -10,6 +10,11 @@ import { VisitStatusFilterPipe } from './common/pipe/visitStatusFilter.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { routing } from './app.routing';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { SearchComponent } from './components/search/search.component';
+import { TagsComponent } from './components/tags/tags.component';
+import { SearchFilterPipe } from './common/pipe/searchFilter.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +22,12 @@ import { routing } from './app.routing';
     FormComponent,
     TableComponent,
     CategoryFilterPipe,
-    VisitStatusFilterPipe
+    VisitStatusFilterPipe,
+    PaginationComponent,
+    MenuComponent,
+    SearchComponent,
+    TagsComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

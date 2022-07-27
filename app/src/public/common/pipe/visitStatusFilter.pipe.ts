@@ -1,11 +1,11 @@
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { TogoPlace } from 'src/public/models/togo.model';
 
 @Pipe({
   name: 'visitStatus',
   pure: false,
 })
-export class VisitStatusFilterPipe {
+export class VisitStatusFilterPipe implements PipeTransform {
   transform(places: TogoPlace[], selectedStatus: string): TogoPlace[] {
     if (selectedStatus == 'visited') {
       return places.filter((p) => (p.isVisited == true));

@@ -14,6 +14,7 @@ export class TableComponent implements OnInit {
   selectedCategory: string;
   selectedVisitStatus: string;
   isEditing: boolean;
+  
 
   constructor(
     private togoService: TogoService,
@@ -31,6 +32,10 @@ export class TableComponent implements OnInit {
     return this.togoService.getPlace(id);
   }
 
+  getPlaceNames():any[]{
+    return this.togoService.getPlaceNames();
+  }
+
   deletePlace(id: any) {
     this.togoService.deletePlace(id);
   }
@@ -38,8 +43,6 @@ export class TableComponent implements OnInit {
   savePlace(place: TogoPlace) {
     this.togoService.savePlace(place);
   }
-
-  onNewPlace() {}
 
   getCategories(places: TogoPlace[]): String[] {
     return this.togoService.getCategories(places);

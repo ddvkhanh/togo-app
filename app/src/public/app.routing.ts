@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'form/create', component: FormComponent },
   { path: 'form/edit/:id', component: FormComponent },
 
-
   // { path: '**', component: TableComponent },
 ];
 

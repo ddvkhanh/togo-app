@@ -1,0 +1,9 @@
+.nav-title {
+    color: #ffffff;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 33px;
+}
+
+.list-group-item:hover {
+    cursor: pointer;
+}

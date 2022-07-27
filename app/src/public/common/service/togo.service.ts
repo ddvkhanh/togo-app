@@ -25,19 +25,22 @@ export class TogoService {
   }
 
   deletePlace(id: string) {
-    this.dataSource.deletePlace(id).subscribe(
-      () => {
-        let index = this.places.findIndex((p) => this.locator(p, id));
-        if (index > -1) {
-          this.places.splice(index, 1);
+    if (confirm('Are you sure to delete this item?')){
+      this.dataSource.deletePlace(id).subscribe(
+        () => {
+          let index = this.places.findIndex((p) => this.locator(p, id));
+          if (index > -1) {
+            this.places.splice(index, 1);
+          }
+        },
+  
+        (error) => {
+          alert('Error: Cannot delete');
+          throw 'Error in deleting place: ' + error;
         }
-      },
-
-      (error) => {
-        alert('Error: Cannot delete');
-        throw 'Error in deleting place: ' + error;
-      }
-    );
+      );
+    }
+    
   }
 
   savePlace(place: TogoPlace) {
@@ -78,8 +81,16 @@ export class TogoService {
     return this.dataSource.getPlace(id);
   }
 
-  cancelChange() {
-    if (confirm('Are you sure to cancel?')) {
+  getPlaceNames(): any[] {
+    let result = [];
+    for (let i of this.places) {
+      result.push(i.name);
+    }
+    return result;
+  }
+
+  onGoBack() {
+    if (confirm('You might lose your unsaved changes')) {
       this.router.navigateByUrl('/');
     }
   }

@@ -1,11 +1,11 @@
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { TogoPlace } from 'src/public/models/togo.model';
 
 @Pipe({
-  name: "category",
+  name: 'category',
   pure: false,
 })
-export class CategoryFilterPipe {
+export class CategoryFilterPipe implements PipeTransform {
   transform(places: TogoPlace[], selectedCategory: string): TogoPlace[] {
     return (selectedCategory == undefined || selectedCategory == "All")
       ? places

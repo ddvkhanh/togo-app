@@ -88,8 +88,13 @@ export class FormComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    this.togoService.cancelChange();
+  onClear() {
+    this.form.reset();
+  }
+
+  onGoBack() {
+    console.log('click');
+    this.togoService.onGoBack();
   }
 
   get isVisited() {
