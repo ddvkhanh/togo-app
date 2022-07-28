@@ -11,7 +11,7 @@
       <a class="navbar-brand nav-title">Saving list to go across Aus</a>
       <form class="d-flex">
         <input class="form-control me-2" id="search-text" name="search-text" type="search"
-          placeholder="Search place name" aria-label="Search" [(ngModel)]="searchText">
+          placeholder="Search cuisine" aria-label="Search" [(ngModel)]="searchText">
         <button class="btn btn-outline-light" type="submit"><i
             class="fa-solid fa-magnifying-glass"></i></button>
       </form>
@@ -20,7 +20,11 @@
   </nav>
   <div class="row justify-content-end">
 
-  <ul class="list-group list-group-flush col-3">
-    <li class="list-group-item" *ngFor="let name of placeNames | search: searchText">{{name}}</li>
+  <ul class="list-group col-4">
+    <li class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText" (click)="onMenuSearch(desc)"
+    appHighlight [searchedWord]="searchText" [content]="desc" [classToApply]="'fw-bold'" [setTitle]="true">
+      {{desc}}
+    </li>
   </ul>
 </div>
+

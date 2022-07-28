@@ -14,7 +14,7 @@ export class TableComponent implements OnInit {
   selectedCategory: string;
   selectedVisitStatus: string;
   isEditing: boolean;
-  
+  searchText = '';
 
   constructor(
     private togoService: TogoService,
@@ -32,9 +32,14 @@ export class TableComponent implements OnInit {
     return this.togoService.getPlace(id);
   }
 
-  getPlaceNames():any[]{
-    return this.togoService.getPlaceNames();
+  // getPlaceNames():any[]{
+  //   return this.togoService.getPlaceNames();
+  // }
+
+  getPlaceDescriptions():any[]{
+    return this.togoService.getPlaceDescriptions();
   }
+
 
   deletePlace(id: any) {
     this.togoService.deletePlace(id);
@@ -46,5 +51,13 @@ export class TableComponent implements OnInit {
 
   getCategories(places: TogoPlace[]): String[] {
     return this.togoService.getCategories(places);
+  }
+
+  onSearchFilter(filterKeyword: string){
+    if (filterKeyword) {
+      this.searchText = filterKeyword;
+    } else {
+      this.searchText = null;
+    }
   }
 }

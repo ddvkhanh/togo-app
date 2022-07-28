@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -6,7 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  @Input() placeNames = [];
+  @Input() placeDescriptions = [];
+
+  @Output() newSearchEvent = new EventEmitter<string>();
 
   isCollapsed: boolean = false;
   searchText = '';
@@ -16,5 +18,8 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onMenuSearch(value: string){
+    this.newSearchEvent.emit(value)
+  }
 
 }

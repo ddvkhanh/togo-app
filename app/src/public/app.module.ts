@@ -15,6 +15,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { SearchFilterPipe } from './common/pipe/searchFilter.pipe';
+import { HighlightDirective } from './common/pipe/highlight.directive';
+import { SearchFilterTablePipe } from './common/pipe/searchFilterTable.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SearchFilterPipe } from './common/pipe/searchFilter.pipe';
     MenuComponent,
     SearchComponent,
     TagsComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    SearchFilterTablePipe,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,

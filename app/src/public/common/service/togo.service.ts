@@ -81,10 +81,18 @@ export class TogoService {
     return this.dataSource.getPlace(id);
   }
 
-  getPlaceNames(): any[] {
+  // getPlaceNames(): any[] {
+  //   let result = [];
+  //   for (let i of this.places) {
+  //     result.push(i.name);
+  //   }
+  //   return result;
+  // }
+
+  getPlaceDescriptions(): any[] {
     let result = [];
     for (let i of this.places) {
-      result.push(i.name);
+      result.push(i.description);
     }
     return result;
   }

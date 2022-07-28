@@ -1,4 +1,4 @@
-<app-menu [placeNames]="getPlaceNames()"></app-menu>
+<app-menu [placeDescriptions]="getPlaceDescriptions()" (newSearchEvent)="onSearchFilter($event)"></app-menu>
 
 <div class="table-container">
     <div class="btn-group toggle-menu" role="group" data-toggle="buttons">
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let place of getPlaces() | category:selectedCategory  | visitStatus: selectedVisitStatus; let i = index"
+                <tr *ngFor="let place of getPlaces() | searchTable: searchText| category:selectedCategory  | visitStatus: selectedVisitStatus; let i = index "
                     [ngClass]="{completed: place.isVisited}">
                     <td>{{i+1}}</td>
                     <td>
