@@ -1,5 +1,4 @@
 import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from "@angular/core";
-import { title } from "process";
 
 @Directive({
     selector:'[appHighlight]'
