@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/index.js",
     "api":"cd server && nodemon index.js",
-    "heroku-postbuild": "cd app && npm install && npm run build"
+    "heroku-postbuild": "cd app && npm install && npm run build --prod"
   },
   "repository": {
     "type": "git",
