@@ -1,2 +1,15 @@
 node_modules/
-app/.angular/cache/
+
+# Compiled output
+client/dist
+
+# Miscellaneous
+client/.angular/cache
+
+# System files
+.DS_Store
+Thumbs.db
+
+# e2e
+client/e2e/*.js
+client/e2e/*.map
