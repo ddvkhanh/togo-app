@@ -28,9 +28,8 @@
         <table class="styled-table">
             <thead class="text-center">
                 <tr>
-                    <th></th>
+                    <th class="sticky-col">Name</th>
                     <th>Visited?</th>
-                    <th>Name</th>
                     <th>Category</th>
                     <th>Description</th>
                     <th>Location</th>
@@ -40,11 +39,10 @@
             <tbody>
                 <tr *ngFor="let place of getPlaces() | searchTable: searchText| category:selectedCategory  | visitStatus: selectedVisitStatus; let i = index "
                     [ngClass]="{completed: place.isVisited}">
-                    <td>{{i+1}}</td>
+                    <td class="sticky-col">{{ place.name }}</td>
                     <td>
                         <input class="toggle" type="checkbox" [checked]="place.isVisited" disabled />
                     </td>
-                    <td>{{ place.name }}</td>
                     <td>{{ place.category }}</td>
                     <td>{{ place.description }}</td>
                     <td>{{ place.location }}</td>

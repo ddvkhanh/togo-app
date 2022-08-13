@@ -4,27 +4,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
 </head>
 
-  <nav class="navbar navbar-light sticky-top navbar-expand-lg" style="background-color: #45858C;">
-    <div class="container-fluid">
-      <button class="btn btn-outline-light" type="button">
-        <i class="fa-solid fa-bars"></i></button>
-      <a class="navbar-brand nav-title">Saving list to go across Aus</a>
-      <form class="d-flex">
-        <input class="form-control me-2" id="search-text" name="search-text" type="search"
-          placeholder="Search cuisine" aria-label="Search" [(ngModel)]="searchText">
-        <button class="btn btn-outline-light" type="submit"><i
-            class="fa-solid fa-magnifying-glass"></i></button>
-      </form>
+<nav class="navbar navbar-light sticky-top navbar-expand-lg" style="background-color: #45858C;">
+  <div class="container-fluid">
+    <button class="btn btn-outline-light" type="button">
+      <i class="fa-solid fa-bars"></i></button>
+    <a class="navbar-brand nav-title mx-auto">AusTravel</a>
+    <form class="d-flex">
+      <input class="form-control me-2" id="search-input" name="search-input" type="search" placeholder="I am craving for..."
+        aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
+      <button class="btn btn-outline-light"  type="submit" (click)="onSearchButtonClick()"><i
+          class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+    <!-- <div class="search-box d-flex">
+      <input type="text" class="search-input" type="search" placeholder="I am craving for..." aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
+      <a class="search-btn" href="#" >
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+    </div> -->
+  </div>
+</nav>
+<div class="row justify-content-end">
 
-    </div>
-  </nav>
-  <div class="row justify-content-end">
-
-  <ul class="list-group col-4">
-    <li class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText" (click)="onMenuSearch(desc)"
-    appHighlight [searchedWord]="searchText" [content]="desc" [classToApply]="'fw-bold'" [setTitle]="true">
+  <div class="list-group col-4">
+    <a href="#" class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText"
+      (click)="onSuggestionClick(desc)" appHighlight [searchedWord]="searchText" [content]="desc"
+      [classToApply]="'fw-bold'" [setTitle]="true">
       {{desc}}
-    </li>
-  </ul>
+    </a>
+  </div>
+
+  
 </div>
 

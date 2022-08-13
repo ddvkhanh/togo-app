@@ -2,6 +2,7 @@
   padding-top: 2em;
   max-width: 200px;  
   display: flex;
+  margin-left: 1px;
 }
 
 .action-column {
@@ -55,6 +56,15 @@ input .toggle {
   width: 85%;
   margin-right: auto;
   margin-left: auto;
+  overflow: auto;
+}
+
+.sticky-col {
+  position: sticky;
+  left: 0px;
+  z-index: 10;
+  background-color:  rgb(191, 151, 101, 0.85);
+  color: #fff;
 }
 
 .btn-add {

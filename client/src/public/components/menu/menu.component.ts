@@ -18,8 +18,20 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onMenuSearch(value: string){
-    this.newSearchEvent.emit(value)
+  onSearchButtonClick(){
+    this.newSearchEvent.emit(this.searchText)
+  }
+
+  onSuggestionClick(keyword: string){
+    (<HTMLInputElement>document.getElementById('search-input')).value = keyword;
+    this.searchText=keyword;
+    this.newSearchEvent.emit(this.searchText)
+  }
+
+  onClearInput(){
+    if ((<HTMLInputElement>document.getElementById('search-input')).value.length==0){
+      this.newSearchEvent.emit(null);
+    }
   }
 
 }
