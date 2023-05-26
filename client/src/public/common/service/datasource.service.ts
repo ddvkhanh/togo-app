@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { TogoPlace } from 'src/public/models/togo.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { TogoService } from './togo.service';
 
 const API_URL = './api/togo';
 
@@ -14,7 +15,7 @@ export class DataSource {
 
   constructor(private http: HttpClient) {}
 
-  get(): Observable<TogoPlace[]> {
+  fetchPlaces(): Observable<TogoPlace[]> {
     return this.sendRequest<TogoPlace[]>('GET', API_URL).pipe(catchError((err) => {throw 'Error in getting place list: ' +err}));
   }
 

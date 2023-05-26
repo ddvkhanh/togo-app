@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableComponent } from './components/togo-table/table.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FormComponent } from './components/togo-form/form.component';
+import { PlaceEditComponent } from './components/place-edit/place-edit.component';
+import { PlaceDetailComponent } from './components/place/place-detail/place-detail.component';
+import { PlaceListComponent } from './components/place/place-list.component';
 
 const routes: Routes = [
-  { path: '', component: TableComponent },
-  { path: 'togo/all', component: TableComponent },
-  { path: 'form/create', component: FormComponent },
-  { path: 'form/edit/:id', component: FormComponent },
+  { path: '', component: PlaceListComponent },
+  { path: 'togo/all', component: PlaceListComponent },
+  { path: 'form/create', component: PlaceEditComponent },
+  { path: 'form/edit/:id', component: PlaceEditComponent },
 
-  // { path: '**', component: TableComponent },
+  { path: '**', component: PlaceListComponent },
 ];
 
 export const routing = RouterModule.forRoot(routes);

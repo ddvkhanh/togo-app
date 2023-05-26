@@ -1,0 +1,50 @@
+.container {
+  position: relative;
+  height: 100%; /* Set the height of the container element */
+}
+
+.pagination-fixed {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.pagination-fixed p {
+  color: #808080;
+}
+
+.pagination-list {
+  display: flex;
+}
+
+.pagination-list:hover {
+  cursor: pointer;
+}
+
+button {
+  border: solid 1px #45858c;
+  color: #45858c;
+}
+
+.active {
+  background: #45858c;
+}
+
+button:disabled {
+  background-color: lightgray;
+  cursor: auto;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: #ffffff;
+  cursor: auto;
+  color: #808080;
+}
+
+nav {
+  float: right;
+}

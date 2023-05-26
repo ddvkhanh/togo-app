@@ -1,38 +1,57 @@
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
-</head>
-
-<nav class="navbar navbar-light sticky-top navbar-expand-lg" style="background-color: #45858C;">
+<nav class="navbar navbar-dark sticky-top navbar-expand-lg" style="background-color: #45858C;">
   <div class="container-fluid">
-    <button class="btn btn-outline-light" type="button">
+    <button class="btn btn-outline-light me-2" type="button">
       <i class="fa-solid fa-bars"></i></button>
-    <a class="navbar-brand nav-title mx-auto">AusTravel</a>
+    <a class="navbar-brand nav-title"><!-- <i
+        class="fa-solid fa-magnifying-glass-location fa-flip-horizontal me-1"></i>-->
+      Wanderwell</a>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Randomize</a>
+        </li>
+
+      </ul>
+    </div>
+
     <form class="d-flex">
-      <input class="form-control me-2" id="search-input" name="search-input" type="search" placeholder="I am craving for..."
-        aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
-      <button class="btn btn-outline-light"  type="submit" (click)="onSearchButtonClick()"><i
+      <input class="form-control me-2" id="search-input" name="search-input" type="search"
+        placeholder="I am craving for..." aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
+      <button class="btn btn-outline-light" type="submit" (click)="onSearchButtonClick()"><i
           class="fa-solid fa-magnifying-glass"></i></button>
     </form>
-    <!-- <div class="search-box d-flex">
-      <input type="text" class="search-input" type="search" placeholder="I am craving for..." aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
-      <a class="search-btn" href="#" >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </a>
-    </div> -->
   </div>
 </nav>
-<div class="row justify-content-end">
+<!-- <div class="row justify-content-end">
 
   <div class="list-group col-4">
-    <a href="#" class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText"
+    <div class="list-group-item list-group-item-light" *ngIf="(placeDescriptions | search:searchText).length ==0">
+      No results found
+    </div>
+    <a class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText"
       (click)="onSuggestionClick(desc)" appHighlight [searchedWord]="searchText" [content]="desc"
       [classToApply]="'fw-bold'" [setTitle]="true">
       {{desc}}
     </a>
+
   </div>
-
-  
+</div> -->
+<div class="row justify-content-end">
+  <div class="list-group col-4">
+    <div class="list-group-item list-group-item-light"
+      *ngIf="(placeDescriptions?.length && (placeDescriptions | search:searchText)?.length) == 0">
+      No results found
+    </div>
+    <ng-container *ngIf="placeDescriptions?.length">
+      <a class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText"
+        (click)="onSuggestionClick(desc)" appHighlight [searchedWord]="searchText" [content]="desc"
+        [classToApply]="'fw-bold'" [setTitle]="true">
+        {{desc}}
+      </a>
+    </ng-container>
+  </div>
 </div>
-

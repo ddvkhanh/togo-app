@@ -9,11 +9,11 @@ import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-togo-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css'],
+  templateUrl: './place-edit.component.html',
+  styleUrls: ['./place-edit.component.css'],
   providers: [TogoService],
 })
-export class FormComponent implements OnInit {
+export class PlaceEditComponent implements OnInit {
   newPlace: TogoPlace = new TogoPlace();
   place: TogoPlace;
   formSubmitted: boolean = false;
@@ -27,8 +27,7 @@ export class FormComponent implements OnInit {
   constructor(
     private togoService: TogoService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -93,7 +92,6 @@ export class FormComponent implements OnInit {
   }
 
   onGoBack() {
-    console.log('click');
     this.togoService.onGoBack();
   }
 

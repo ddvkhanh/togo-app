@@ -9,6 +9,6 @@ export class CategoryFilterPipe implements PipeTransform {
   transform(places: TogoPlace[], selectedCategory: string): TogoPlace[] {
     return (selectedCategory == undefined || selectedCategory == "All")
       ? places
-      : places.filter((p) => p.category == selectedCategory);
+      : places.filter((p) =>  p.category == selectedCategory);
   }
 }

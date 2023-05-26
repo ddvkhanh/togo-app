@@ -6,3 +6,11 @@
 .btn-back:hover{
     text-decoration: underline;
 }
+
+.form-instruction{
+  color: #cc0000;
+}
+
+#mandatory-warning{
+  float: left;
+}

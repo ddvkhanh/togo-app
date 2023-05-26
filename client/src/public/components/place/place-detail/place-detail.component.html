@@ -1,0 +1,26 @@
+<div class="card mb-3" [ngClass]=" { completed: place.isVisited }">
+    <div class="card-header d-flex">
+        <div class="col-6 "><i style="color:#45858C;" class="fa-solid me-2"
+                [ngClass]="getIconPerCategory(place.category)"></i>{{
+            place.category }}
+        </div>
+        <div class="col-6 action-column">
+            <button class="btn edit-btn btn-action" routerLink="/form/edit/{{ place._id }}" value="{{ place._id }}">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn del-btn mx-2 btn-action" (click)="deletePlace(place._id)">
+                <i class="fas fa-trash-alt"></i> Delete
+            </button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">{{ place.name }}
+            <span class="status-tag" *ngIf="place.isVisited"><i style="color:#ffffff"
+                    class="me-2 fa-solid fa-shoe-prints"></i>Visited</span>
+
+        </h5>
+        <p class="card-text">{{ place.description }}</p>
+        <p class="card-text">{{ place.location }}</p>
+    </div>
+</div>

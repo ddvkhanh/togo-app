@@ -1,0 +1,23 @@
+.toggle-menu {
+  padding-top: 2em;
+  max-width: 200px;
+  display: flex;
+  margin-left: 1px;
+}
+
+.table-container {
+  margin-right: auto;
+  margin-left: auto;
+  overflow: auto;
+  min-height: 2200px;
+}
+
+.btn-add {
+  color: #fff;
+  background-color: #45858c;
+  border-color: #a0d9d9;
+}
+
+.btn-add:hover {
+  background-color: #a0d9d9;
+}

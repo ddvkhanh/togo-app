@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { TableComponent } from './components/togo-table/table.component';
-import { FormComponent } from './components/togo-form/form.component';
+import { PlaceEditComponent } from './components/place-edit/place-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryFilterPipe } from './common/pipe/categoryFilter.pipe';
 import { VisitStatusFilterPipe } from './common/pipe/visitStatusFilter.pipe';
@@ -17,12 +16,15 @@ import { TagsComponent } from './components/tags/tags.component';
 import { SearchFilterPipe } from './common/pipe/searchFilter.pipe';
 import { HighlightDirective } from './common/pipe/highlight.directive';
 import { SearchFilterTablePipe } from './common/pipe/searchFilterTable.pipe';
+import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
+import { PlaceDetailComponent } from './components/place/place-detail/place-detail.component';
+import { PlaceListComponent } from './components/place/place-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormComponent,
-    TableComponent,
+    PlaceEditComponent,
+    PlaceDetailComponent,
     CategoryFilterPipe,
     VisitStatusFilterPipe,
     PaginationComponent,
@@ -31,7 +33,9 @@ import { SearchFilterTablePipe } from './common/pipe/searchFilterTable.pipe';
     TagsComponent,
     SearchFilterPipe,
     SearchFilterTablePipe,
-    HighlightDirective
+    HighlightDirective,
+    PaginationFilter,
+    PlaceListComponent,
   ],
   imports: [
     BrowserModule,

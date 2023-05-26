@@ -1,0 +1,25 @@
+.action-column {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+input .toggle {
+  text-align: center;
+}
+
+.edit-btn {
+  background-color: #d9c589;
+}
+
+.del-btn {
+  background-color: #d92b048d;
+}
+
+.status-tag {
+  background-color: #4883ca;
+  border-radius: 5px;
+  padding: 3px 7px;
+  font-size: small;
+  color: #ffffff;
+}

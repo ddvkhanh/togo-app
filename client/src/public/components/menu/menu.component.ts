@@ -1,37 +1,36 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { TogoService } from 'src/public/common/service/togo.service';
+import { MenuService } from './menu.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
 })
 export class MenuComponent implements OnInit {
-  @Input() placeDescriptions = [];
-
-  @Output() newSearchEvent = new EventEmitter<string>();
-
+  placeDescriptions = [];
+  newSearchEvent = new BehaviorSubject<string>(null);
   isCollapsed: boolean = false;
-  searchText = '';
+  searchText = null;
 
-  constructor() { }
+  constructor(private menuService: MenuService) {}
 
   ngOnInit(): void {
+    this.menuService.placeDescriptionsChanged.subscribe(
+      (desc) => (this.placeDescriptions = desc)
+    );
   }
 
-  onSearchButtonClick(){
-    this.newSearchEvent.emit(this.searchText)
+  onSearchButtonClick() {
+    this.menuService.search(this.searchText);
   }
 
-  onSuggestionClick(keyword: string){
-    (<HTMLInputElement>document.getElementById('search-input')).value = keyword;
-    this.searchText=keyword;
-    this.newSearchEvent.emit(this.searchText)
+  onSuggestionClick(keyword: string) {
+    this.menuService.getPlaceDetail(keyword);
   }
 
-  onClearInput(){
-    if ((<HTMLInputElement>document.getElementById('search-input')).value.length==0){
-      this.newSearchEvent.emit(null);
-    }
+  onClearInput() {
+    this.menuService.clearSearch();
   }
-
 }

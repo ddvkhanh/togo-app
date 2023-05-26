@@ -1,8 +1,9 @@
 
 
-<div class="p-5 col-sm-5">
+<div class="p-5 col-sm-7">
     <button class="btn btn-back" (click)="onGoBack()">Back</button>        
     <h2 class="py-2">{{editMode? 'Update place details' : 'Add a new place'}}</h2>
+    <p class="form-instruction"><em>All fields with an aterisk (*) are required</em></p>
     <form novalidate [formGroup]="form" (ngSubmit)="submitForm(form)" (reset)="resetForm()">
         <div class="">
             <div class="form-check">
@@ -46,10 +47,10 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit" [disabled]="formSubmitted && !form.valid" >{{editMode? 'Update' :
+        <button class="btn btn-secondary float-start" (click)="onClear()">Clear</button>
+        <button class="btn btn-primary float-end" type="submit" [disabled]="formSubmitted && !form.valid" >{{editMode? 'Update' :
             'Add'}}</button>
-        <button class="btn btn-secondary float-end" (click)="onClear()">Clear</button>
-        <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger">
+        <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger" id="mandatory-warning">
             Please ensure all mandatory fields are provided.
         </div>
 
