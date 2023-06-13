@@ -29,10 +29,12 @@
 
     <div class="mb-3">
         <app-place-detail *ngFor="
-        let place of places
-          | searchTable: searchText
+        let place of visiblePlacesPerPage
           | category: selectedCategory
           | visitStatus: selectedVisitStatus
-          | pagination: selectedPage; let i = index" [place]="place"></app-place-detail>
+          | searchTable: searchText
+          ; let i = index" [place]="place"></app-place-detail>
     </div>
 </div>
+
+<app-pagination></app-pagination>

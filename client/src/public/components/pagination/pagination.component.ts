@@ -9,6 +9,8 @@ import { PaginationService } from './pagination.service';
 export class PaginationComponent implements OnInit {
   totalPages = 0;
   selectedPageIndex: number = 0;
+  totalItems = 0;
+  hasPagination: boolean = true;
   constructor(private paginationService: PaginationService) {}
 
   ngOnInit(): void {
@@ -19,6 +21,13 @@ export class PaginationComponent implements OnInit {
     this.paginationService.selectedPage$.subscribe((selectedPage) => {
       this.selectedPageIndex = selectedPage;
     });
+
+    this.paginationService.showPagination$.subscribe(
+      (val) => (this.hasPagination = val)
+    );
+    // this.paginationService.totalItems$.subscribe((totalItems) => {
+    //   this.totalItems = totalItems;
+    // });
   }
 
   selectPage(pageIndex: number): void {
@@ -28,5 +37,9 @@ export class PaginationComponent implements OnInit {
 
   pageCounter(arrayLength: number): Array<number> {
     return new Array(arrayLength);
+  }
+
+  setPaginationDisplay(hasPagination: boolean): void {
+    this.hasPagination = hasPagination;
   }
 }

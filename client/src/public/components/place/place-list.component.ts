@@ -18,9 +18,12 @@ export class PlaceListComponent implements OnInit {
   selectedVisitStatus: string;
   isEditing: boolean;
   searchText: string = '';
-  selectedPage: number = 0;
+  totalItems: number = 0;
+  selectedPageIndex: number = 0;
   totalPages: number = 0;
   places: TogoPlace[] = [];
+  visiblePlacesPerPage: TogoPlace[] = this.places.slice(0, 10);
+  placeDescriptions: string[];
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -33,27 +36,30 @@ export class PlaceListComponent implements OnInit {
     this.togoService.fetchPlaces().subscribe((places) => {
       this.places = places;
       this.togoService.setPlaces(places);
-
-      //pagination
-      this.totalPages = this.togoService.getTotalPages();
-      this.paginationService.setTotalPages(this.totalPages);
-      this.paginationService.setSelectedPage(this.selectedPage);
-
-      //menu search
-      console.log(this.togoService.getPlaceDescriptions());
-
-      this.menuService.setPlaceDescriptions(
-        this.togoService.getPlaceDescriptions()
-      );
+      this.updatePlaceDescriptionsAndPagination();
+      this.menuService.setPlaceDescriptions(this.placeDescriptions);
     });
 
     this.togoService.placesChanged.subscribe((places: TogoPlace[]) => {
       this.places = places;
+      this.updatePlaceDescriptionsAndPagination();
     });
 
     this.paginationService.selectedPage$.subscribe((selectedPage) => {
-      this.selectedPage = selectedPage;
+      this.selectedPageIndex = selectedPage;
+      this.onPageChange(this.selectedPageIndex);
     });
+
+    this.menuService.newSearchEvent.subscribe((keyword) => {
+      this.onSearchFilter(keyword);
+    });
+  }
+
+  private updatePlaceDescriptionsAndPagination() {
+    this.placeDescriptions = this.getPlaceDescriptions();
+    this.totalItems = this.placeDescriptions.length;
+    this.paginationService.setTotalItems(this.totalItems);
+    this.onPageChange(this.selectedPageIndex);
   }
 
   getPlaceDescriptions(): any[] {
@@ -65,20 +71,33 @@ export class PlaceListComponent implements OnInit {
   }
 
   onSearchFilter(filterKeyword: string): void {
+    this.searchText = filterKeyword;
     if (filterKeyword) {
-      this.searchText = filterKeyword;
+      // this.totalItems = (this.placeDescriptions || []).filter((p) =>
+      //   p.includes(this.searchText)
+      // ).length;
+      // this.paginationService.setTotalItems(this.totalItems);
+      // this.selectedPageIndex = 0;
+      // this.paginationService.setSelectedPage(this.selectedPageIndex);
+
+      this.paginationService.setPaginationDisplay(false);
+      this.visiblePlacesPerPage = this.paginationService.calculateVisibleItems(
+        -1,
+        this.places
+      );
     } else {
-      this.searchText = null;
+      this.paginationService.setPaginationDisplay(true);
+      this.onPageChange(this.selectedPageIndex);
     }
   }
 
-  // getTotalPages(): number {
-  //   return this.togoService.getTotalPages();
-  // }
-
-  // selectPage(selectedPage: number): void {
-  //   this.selectedPage = selectedPage;
-  // }
+  onPageChange(page: number) {
+    this.selectedPageIndex = page;
+    this.visiblePlacesPerPage = this.paginationService.calculateVisibleItems(
+      this.selectedPageIndex,
+      this.places
+    );
+  }
 
   ngOnDestroy() {
     // unsubscribe from all subscriptions

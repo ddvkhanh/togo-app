@@ -16,9 +16,9 @@ import { TagsComponent } from './components/tags/tags.component';
 import { SearchFilterPipe } from './common/pipe/searchFilter.pipe';
 import { HighlightDirective } from './common/pipe/highlight.directive';
 import { SearchFilterTablePipe } from './common/pipe/searchFilterTable.pipe';
-import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
 import { PlaceDetailComponent } from './components/place/place-detail/place-detail.component';
 import { PlaceListComponent } from './components/place/place-list.component';
+import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
 
 @NgModule({
   declarations: [
@@ -33,8 +33,8 @@ import { PlaceListComponent } from './components/place/place-list.component';
     TagsComponent,
     SearchFilterPipe,
     SearchFilterTablePipe,
-    HighlightDirective,
     PaginationFilter,
+    HighlightDirective,
     PlaceListComponent,
   ],
   imports: [

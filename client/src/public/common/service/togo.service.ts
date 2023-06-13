@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { TogoPlace } from 'src/public/models/togo.model';
 import { DataSource } from './datasource.service';
 import { Router } from '@angular/router';
-import { Constants } from 'src/public/app-constants';
-import { BehaviorSubject, Subject, tap } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,6 @@ import { BehaviorSubject, Subject, tap } from 'rxjs';
 export class TogoService {
   places: TogoPlace[] = [];
   private locator = (p: TogoPlace, id: any) => p._id === id;
-  private maxItemPerPage = Constants.MAX_ITEMS_PER_PAGE;
   placesChanged = new BehaviorSubject<TogoPlace[]>([]);
   // selectedPageChanged = new BehaviorSubject<number>(0);
   selectedPage: number;
@@ -36,6 +34,7 @@ export class TogoService {
           index = this.places.findIndex((p) => this.locator(p, id));
           if (index > -1) {
             this.places.splice(index, 1);
+            this.placesChanged.next(this.places.slice());
           }
         },
         error: (error) => {
@@ -44,8 +43,6 @@ export class TogoService {
         },
       });
     }
-    this.places.splice(index, 1);
-    this.placesChanged.next(this.places.slice());
   }
 
   savePlace(place: TogoPlace) {
@@ -56,6 +53,7 @@ export class TogoService {
         next: (p) => {
           this.places.push(p);
           alert('Create successfully');
+          this.placesChanged.next(this.places.slice());
         },
         error: (error) => {
           alert('Error: Cannot submit form');
@@ -63,13 +61,14 @@ export class TogoService {
         },
       });
     }
-    this.places.push(place);
-    this.placesChanged.next(this.places.slice());
   }
 
   updatePlace(id: string, place: TogoPlace) {
     this.dataSource.updatePlace(id, place).subscribe({
       next: () => {
+        let index = this.places.findIndex((p) => this.locator(p, id));
+        this.places[index] = place;
+        this.placesChanged.next(this.places.slice());
         alert('Update successfully');
         this.router.navigateByUrl('/');
       },
@@ -78,9 +77,6 @@ export class TogoService {
         throw 'Error in updating place: ' + error;
       },
     });
-    let index = this.places.findIndex((p) => this.locator(p, id));
-    this.places[index] = place;
-    this.placesChanged.next(this.places.slice());
   }
 
   getPlaces(): TogoPlace[] {
@@ -107,15 +103,6 @@ export class TogoService {
   //   this.selectedPage = pageNumber;
   //   this.selectedPageChanged.next(pageNumber);
   // }
-
-  getTotalPages(): number {
-    console.log(this.places);
-    console.log(
-      'total pages: ',
-      Math.ceil(this.places.length / this.maxItemPerPage)
-    );
-    return Math.ceil(this.places.length / this.maxItemPerPage);
-  }
 
   onGoBack() {
     if (confirm('You might lose your unsaved changes')) {

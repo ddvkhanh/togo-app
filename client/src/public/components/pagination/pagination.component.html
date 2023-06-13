@@ -1,22 +1,20 @@
-<div class="container">
-  <div class="pagination-fixed">
-    <nav aria-label="Pagination">
-      <ul class="pagination justify-content-end pagination-horizontal" id="pagination-list">
-        <li class="page-item">
-          <button class="page-link" [disabled]="selectedPageIndex === 0" (click)="selectPage(selectedPageIndex-1)"><span
-              aria-hidden="true" class="me-1">&laquo;</span>Previous</button>
-        </li>
-        <li class="page-item pagination-list">
-          <button class="page-link page-number" [ngClass]="{'active': selectedPageIndex===i}" id="{{'page-' + i}}"
-            *ngFor="let page of pageCounter(totalPages); let i = index" (click)="selectPage(i)">{{i+1}}
-          </button>
-        </li>
-        <li class="page-item">
-          <button class="page-link" [disabled]="selectedPageIndex === totalPages - 1"
-            (click)="selectPage(selectedPageIndex+1)">Next<span aria-hidden="true" class="ms-1">&raquo;</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </div>
+<div *ngIf="hasPagination" class="pagination-fixed">
+  <nav aria-label="Pagination">
+    <ul class="pagination justify-content-end pagination-horizontal" id="pagination-list">
+      <li class="page-item">
+        <button class="page-link" [disabled]="selectedPageIndex === 0" (click)="selectPage(selectedPageIndex-1)"><span
+            aria-hidden="true" class="me-1">&laquo;</span>Previous</button>
+      </li>
+      <li class="page-item pagination-list">
+        <button class="page-link page-number" [ngClass]="{'active': selectedPageIndex===i}" id="{{'page-' + i}}"
+          *ngFor="let page of pageCounter(totalPages); let i = index" (click)="selectPage(i)">{{i+1}}
+        </button>
+      </li>
+      <li class="page-item">
+        <button class="page-link" [disabled]="selectedPageIndex === totalPages - 1"
+          (click)="selectPage(selectedPageIndex+1)">Next<span aria-hidden="true" class="ms-1">&raquo;</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
 </div>

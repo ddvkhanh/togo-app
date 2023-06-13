@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/public/app-constants';
 import { TogoService } from 'src/public/common/service/togo.service';
 import { TogoPlace } from 'src/public/models/togo.model';
 
