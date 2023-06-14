@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PipeTransform } from '@angular/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { Constants } from 'src/public/app-constants';
 import { TogoService } from 'src/public/common/service/togo.service';
 import { TogoPlace } from 'src/public/models/togo.model';
 import { PaginationService } from '../pagination/pagination.service';
 import { MenuService } from '../menu/menu.service';
+import { SearchFilterTablePipe } from 'src/public/common/pipe/searchFilterTable.pipe';
+import { CategoryVisitFilterPipe } from 'src/public/common/pipe/categoryVisitFilter.pipe';
 
 @Component({
   selector: 'app-place-list',
@@ -13,12 +15,11 @@ import { MenuService } from '../menu/menu.service';
   providers: [TogoService],
 })
 export class PlaceListComponent implements OnInit {
-  maxItemPerPage: number = Constants.MAX_ITEMS_PER_PAGE;
+  CATEGORY_ALL: string = Constants.CATEGORY_ALL;
   selectedCategory: string;
   selectedVisitStatus: string;
   isEditing: boolean;
   searchText: string = '';
-  totalItems: number = 0;
   selectedPageIndex: number = 0;
   totalPages: number = 0;
   places: TogoPlace[] = [];
@@ -29,7 +30,9 @@ export class PlaceListComponent implements OnInit {
   constructor(
     private togoService: TogoService,
     private paginationService: PaginationService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private searchFilterPipe: SearchFilterTablePipe,
+    private categoryVisitFilterPipe: CategoryVisitFilterPipe
   ) {}
 
   ngOnInit() {
@@ -51,14 +54,13 @@ export class PlaceListComponent implements OnInit {
     });
 
     this.menuService.newSearchEvent.subscribe((keyword) => {
-      this.onSearchFilter(keyword);
+      this.onSearch(keyword);
     });
   }
 
   private updatePlaceDescriptionsAndPagination() {
     this.placeDescriptions = this.getPlaceDescriptions();
-    this.totalItems = this.placeDescriptions.length;
-    this.paginationService.setTotalItems(this.totalItems);
+    this.paginationService.setTotalItems(this.placeDescriptions.length);
     this.onPageChange(this.selectedPageIndex);
   }
 
@@ -70,35 +72,42 @@ export class PlaceListComponent implements OnInit {
     return this.togoService.getCategories(places);
   }
 
-  onSearchFilter(filterKeyword: string): void {
-    this.searchText = filterKeyword;
-    if (filterKeyword) {
-      // this.totalItems = (this.placeDescriptions || []).filter((p) =>
-      //   p.includes(this.searchText)
-      // ).length;
-      // this.paginationService.setTotalItems(this.totalItems);
-      // this.selectedPageIndex = 0;
-      // this.paginationService.setSelectedPage(this.selectedPageIndex);
-
-      this.paginationService.setPaginationDisplay(false);
-      this.visiblePlacesPerPage = this.paginationService.calculateVisibleItems(
-        -1,
-        this.places
-      );
-    } else {
-      this.paginationService.setPaginationDisplay(true);
-      this.onPageChange(this.selectedPageIndex);
-    }
+  recalculatePagination(itemsCount: number) {
+    this.paginationService.setTotalItems(itemsCount);
+    this.selectedPageIndex = 0;
+    this.paginationService.setSelectedPage(this.selectedPageIndex);
   }
 
   onPageChange(page: number) {
     this.selectedPageIndex = page;
-    this.visiblePlacesPerPage = this.paginationService.calculateVisibleItems(
-      this.selectedPageIndex,
-      this.places
-    );
   }
 
+  onSearch(filterKeyword: string): void {
+    if (filterKeyword) {
+      this.searchText = filterKeyword;
+      const filteredItems = this.searchFilterPipe.transform(
+        this.places,
+        this.searchText
+      );
+      this.recalculatePagination(filteredItems.length);
+    } else {
+      this.searchText = null;
+      this.recalculatePagination(this.places.length);
+    }
+  }
+
+  onFilterChange(selectedCategory: string, visitStatus: string) {
+    const filteredItems = this.categoryVisitFilterPipe.transform(
+      this.places,
+      selectedCategory,
+      visitStatus
+    );
+    this.recalculatePagination(filteredItems.length);
+  }
+
+  getPipeResults(pipeName: PipeTransform, filter: string): TogoPlace[] {
+    return pipeName.transform(this.places, filter);
+  }
   ngOnDestroy() {
     // unsubscribe from all subscriptions
     this.subscriptions.forEach((sub) => sub.unsubscribe());

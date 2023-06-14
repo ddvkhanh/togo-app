@@ -21,15 +21,7 @@ export class PaginationComponent implements OnInit {
     this.paginationService.selectedPage$.subscribe((selectedPage) => {
       this.selectedPageIndex = selectedPage;
     });
-
-    this.paginationService.showPagination$.subscribe(
-      (val) => (this.hasPagination = val)
-    );
-    // this.paginationService.totalItems$.subscribe((totalItems) => {
-    //   this.totalItems = totalItems;
-    // });
   }
-
   selectPage(pageIndex: number): void {
     this.paginationService.setSelectedPage(pageIndex);
     this.selectedPageIndex = pageIndex;
@@ -37,9 +29,5 @@ export class PaginationComponent implements OnInit {
 
   pageCounter(arrayLength: number): Array<number> {
     return new Array(arrayLength);
-  }
-
-  setPaginationDisplay(hasPagination: boolean): void {
-    this.hasPagination = hasPagination;
   }
 }

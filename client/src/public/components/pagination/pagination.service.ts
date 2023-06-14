@@ -9,7 +9,6 @@ import { TogoPlace } from 'src/public/models/togo.model';
 export class PaginationService {
   private selectedPageSource = new BehaviorSubject<number>(1);
   private totalPagesSource = new BehaviorSubject<number>(0);
-  private showPagination = new BehaviorSubject<boolean>(true);
 
   itemsPerPage: number;
   totalItems: number;
@@ -17,7 +16,6 @@ export class PaginationService {
 
   totalPages$ = this.totalPagesSource.asObservable();
   selectedPage$ = this.selectedPageSource.asObservable();
-  showPagination$ = this.showPagination.asObservable();
 
   setTotalItems(totalItems: number) {
     this.totalItems = totalItems;
@@ -42,25 +40,5 @@ export class PaginationService {
 
   getTotalPages(): number {
     return Math.ceil(this.totalItems / this.maxItemPerPage);
-  }
-
-  calculateVisibleItems(
-    selectedPageIndex: number,
-    places: TogoPlace[]
-  ): TogoPlace[] {
-    if (selectedPageIndex > -1) {
-      const startIndex = this.maxItemPerPage * selectedPageIndex;
-      const endIndex = startIndex + this.maxItemPerPage - 1;
-      console.log('startIndedx ' + startIndex);
-      console.log('endIndex ' + endIndex);
-      console.log(places.slice(startIndex, endIndex));
-      return places.slice(startIndex, endIndex);
-    } else {
-      return places;
-    }
-  }
-
-  setPaginationDisplay(hasPagination: boolean) {
-    this.showPagination.next(hasPagination);
   }
 }
