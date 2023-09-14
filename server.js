@@ -13,7 +13,7 @@ app.use(express.json());
 //GET all places
 app.get("/api/togo", async (req, res) => {
   try {
-    const places = await Place.find();
+    const places = await Place.find().sort({ lastUpdatedWhen: desc });
     res.send(places);
   } catch (error) {
     res.status(500).json({ success: false, message: error });
@@ -73,7 +73,7 @@ app.put("/api/togo/:id", async (req, res) => {
 //DELETE existing place
 app.delete("/api/togo/:id", async (req, res) => {
   try {
-    const removedPlace = await Place.remove({ _id: req.params.id });
+    const removedPlace = await Place.deleteOne({ _id: req.params.id });
     res.send(removedPlace);
   } catch (error) {
     res.status(500).json({ success: false, message: error });
@@ -81,18 +81,22 @@ app.delete("/api/togo/:id", async (req, res) => {
 });
 
 //Connect MongoDB
-mongoose.connect(
-  process.env.DB_CONNECTION_STRING,
-  { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.error(error));
+mongoose.set("strictQuery", false);
+
+mongoose
+  .connect(process.env.DB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((error) => console.error(error));
 
 //PORT
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'client/dist/togosApp')))
+const path = require("path");
+app.use(express.static(path.join(__dirname, "client/dist/togosApp")));
 
-app.get('/*', function(req,res) {
-  res.sendFile(path.join(__dirname+'/client/dist/togosApp/index.html'));
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname + "/client/dist/togosApp/index.html"));
 });
-

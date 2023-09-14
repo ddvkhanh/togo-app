@@ -1,11 +1,12 @@
-
-
 <div class="p-5 col-sm-7">
-    <button class="btn btn-back" (click)="onGoBack()">Back</button>        
+    <button class="btn btn-back" (click)="onGoBack()">Back</button>
     <h2 class="py-2">{{editMode? 'Update place details' : 'Add a new place'}}</h2>
     <p class="form-instruction"><em>All fields with an aterisk (*) are required</em></p>
+    <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger " id="mandatory-warning">
+        Please ensure all mandatory fields are provided.
+    </div>
     <form novalidate [formGroup]="form" (ngSubmit)="submitForm(form)" (reset)="resetForm()">
-        <div class="">
+        <div class="pb-2">
             <div class="form-check">
                 <input id="visit-status" type="checkbox" class="form-check-input" formControlName="isVisited">
                 <label for="visit-status" class="form-check-label">Visited?</label>
@@ -20,7 +21,7 @@
 
             <div class="pb-2">
                 <label for="category">Category: <span style="color: #cc0000">*</span> </label>
-                <select id="category" class="form-control" formControlName="category">
+                <select id="category" class="form-select" formControlName="category">
                     <option>Food & Drink</option>
                     <option>Travel</option>
                     <option>Entertainment Venues</option>
@@ -30,7 +31,6 @@
                 </div>
             </div>
             <div class="pb-2">
-
                 <label for="description">Description: <span style="color: #cc0000">*</span></label>
                 <input id="description" type="text" class="form-control" formControlName="description">
                 <div *ngIf="description.invalid && (description.dirty || description.touched)"
@@ -48,11 +48,9 @@
             </div>
         </div>
         <button class="btn btn-secondary float-start" (click)="onClear()">Clear</button>
-        <button class="btn btn-primary float-end" type="submit" [disabled]="formSubmitted && !form.valid" >{{editMode? 'Update' :
+        <button class="btn btn-primary float-end" type="submit" [disabled]="formSubmitted && !form.valid">{{editMode?
+            'Update' :
             'Add'}}</button>
-        <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger" id="mandatory-warning">
-            Please ensure all mandatory fields are provided.
-        </div>
 
     </form>
 </div>

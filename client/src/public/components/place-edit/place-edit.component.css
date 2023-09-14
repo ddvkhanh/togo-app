@@ -1,16 +1,15 @@
 .btn-back {
-    background: #45858C  ;
-    color: #ffffff
-  }
-
-.btn-back:hover{
-    text-decoration: underline;
+  background: #45858c;
+  color: #ffffff;
 }
 
-.form-instruction{
+.btn-back:hover {
+  text-decoration: underline;
+}
+
+.form-instruction {
   color: #cc0000;
 }
 
-#mandatory-warning{
-  float: left;
+#mandatory-warning {
 }

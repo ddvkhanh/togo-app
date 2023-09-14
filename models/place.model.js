@@ -8,6 +8,7 @@ const Place = new Schema({
   category: { type: String, min: 5, required: true },
   description: { type: String, required: true },
   location: { type: String, required: true },
+  //lastUpdatedWhen: { type: Date, required: false },
 });
 
 module.exports = mongoose.model("place", Place);

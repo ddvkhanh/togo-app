@@ -36,6 +36,8 @@ export class TogoService {
             this.places.splice(index, 1);
             this.placesChanged.next(this.places.slice());
           }
+          window.location.reload();
+          alert('Delete successfully');
         },
         error: (error) => {
           alert('Error: Cannot delete');
