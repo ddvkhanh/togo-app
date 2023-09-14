@@ -13,7 +13,7 @@ app.use(express.json());
 //GET all places
 app.get("/api/togo", async (req, res) => {
   try {
-    const places = await Place.find().sort({ lastUpdatedWhen: desc });
+    const places = await Place.find();
     res.send(places);
   } catch (error) {
     res.status(500).json({ success: false, message: error });
