@@ -18,6 +18,7 @@ import { SearchFilterTablePipe } from './common/pipe/searchFilterTable.pipe';
 import { PlaceDetailComponent } from './components/place/place-detail/place-detail.component';
 import { PlaceListComponent } from './components/place/place-list.component';
 import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
+import { SpinningWheelComponent } from './components/spinning-wheel/spinning-wheel.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
     PaginationFilter,
     HighlightDirective,
     PlaceListComponent,
+    SpinningWheelComponent,
   ],
   imports: [
     BrowserModule,

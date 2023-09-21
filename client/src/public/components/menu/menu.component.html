@@ -2,17 +2,16 @@
   <div class="container-fluid">
     <button class="btn btn-outline-light me-2" type="button">
       <i class="fa-solid fa-bars"></i></button>
-    <a class="navbar-brand nav-title"><!-- <i
-        class="fa-solid fa-magnifying-glass-location fa-flip-horizontal me-1"></i>-->
+    <a class="navbar-brand nav-title">
       Wanderwell</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page">Home</a>
+          <a class="nav-link" aria-current="page" routerLink="/togo/all" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Randomize</a>
+          <a class="nav-link" routerLink="/randomize" routerLinkActive="active">Randomize</a>
         </li>
       </ul>
     </div>
@@ -22,26 +21,11 @@
       <button class="btn btn-outline-light ms-50" id="search-btn" type="submit" (click)="onSearchButtonClick()"><i
           class="fa-solid fa-magnifying-glass"></i></button>
     </form>
-    <div class="btn btn-outline-light mx-2"><i class="fa-regular fa-user mx-1"></i>Login/ Sign Up</div>
+    <div class="btn btn-outline-light mx-2 login"><i class="fa-regular fa-user mx-1"></i>Login/ Sign Up</div>
 
 
   </div>
 </nav>
-
-<!-- <div class="row justify-content-end">
-
-  <div class="list-group col-4">
-    <div class="list-group-item list-group-item-light" *ngIf="(placeDescriptions | search:searchText).length ==0">
-      No results found
-    </div>
-    <a class="list-group-item list-group-item-light" *ngFor="let desc of placeDescriptions | search: searchText"
-      (click)="onSuggestionClick(desc)" appHighlight [searchedWord]="searchText" [content]="desc"
-      [classToApply]="'fw-bold'" [setTitle]="true">
-      {{desc}}
-    </a>
-
-  </div>
-</div> -->
 <div class="row justify-content-end">
   <div class="list-group col-4">
     <div class="list-group-item list-group-item-light"

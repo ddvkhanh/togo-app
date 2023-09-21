@@ -9,11 +9,21 @@ input .toggle {
 }
 
 .edit-btn {
-  background-color: #d9c589;
+  background-color: #4883ca;
+  color: #ffffff;
+}
+
+.edit-btn:hover {
+  background-color: #7399c8;
 }
 
 .del-btn {
-  background-color: #d92b048d;
+  background-color: #d64c2db9;
+  color: #ffffff;
+}
+
+.del-btn:hover {
+  background-color: #d3674eb9;
 }
 
 .status-tag {
@@ -22,4 +32,8 @@ input .toggle {
   padding: 3px 7px;
   font-size: small;
   color: #ffffff;
+}
+
+#place-location {
+  font-style: italic;
 }

@@ -8,6 +8,10 @@
   color: #ffffff;
 }
 
+.nav-item {
+  cursor: pointer;
+}
+
 .list-group-item:hover {
   cursor: pointer;
   color: #45858c;
@@ -41,4 +45,12 @@ input[type="search"] {
 /* icon */
 #search-btn {
   cursor: pointer;
+}
+
+#search-btn:hover {
+  color: #45858c;
+}
+
+.login:hover {
+  color: #45858c;
 }
