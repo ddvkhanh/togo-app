@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { TogoService } from 'src/public/common/service/togo.service';
+import { TogoPlace } from 'src/public/models/togo.model';
+import { SpinningWheelService } from '../../common/service/spinning-wheel.service';
+import { WheelSlice } from 'src/public/models/wheel-slice.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-spinning-wheel',
@@ -6,69 +17,123 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
   styleUrls: ['./spinning-wheel.component.css'],
 })
 export class SpinningWheelComponent implements OnInit, AfterViewInit {
+  @ViewChild('wheel') canvas: ElementRef;
+  @ViewChild('spin') spinBtn: ElementRef;
+
+  context: CanvasRenderingContext2D;
   randomAngle: number;
   sliceCircleAngle: number;
   numberOfSlices: number;
-  sliceStyles: any[] = new Array();
-  wheelStyle: any = {};
+  spinBtnText: string = 'SPIN';
 
-  data = [
-    'Korean',
-    'Vietnamese',
-    'Mexican',
-    'Greek',
-    'Chinese',
-    'Thai',
-    'India',
-    'Taiwan',
-    'Italian',
-    'US',
-    'A',
-    'B',
+  isSpinning = false;
+  isAccelerating = false;
+  angVelMax = 0; // Random ang.vel. to accelerate to
+  angVel = 0; // Current angular velocity
+  animFrame = null; // Engine's requestAnimationFrame
+  friction = 0.991; // 0.995=soft, 0.99=mid, 0.98=hard
+  angVelMin = 0.002; // Below that number will be treated as a stop
+  PI = Math.PI;
+  TAU = 2 * this.PI;
+  ang = 0; // Angle rotation in radians
 
-    'Taiwan',
-    'Italian',
-    'US',
-  ];
+  wheelSlices: WheelSlice[] = new Array();
+  activeWheelSlices: WheelSlice[] = new Array();
 
-  constructor() {}
+  // ogwheelSlices = [
+  //   { cuisine: 'Korean', isActive: true },
+  //   { cuisine: 'Vietnamese', isActive: true },
+  //   { cuisine: 'Mexican', isActive: true },
+  //   { cuisine: 'Greek', isActive: true },
+  //   { cuisine: 'Chinese', isActive: true },
+  //   { cuisine: 'Thai', isActive: true },
+  //   { cuisine: 'Taiwan', isActive: true },
+  //   { cuisine: 'India', isActive: true },
+  //   { cuisine: 'Italian', isActive: true },
+  // ];
+
+  // wheelSlices = this.ogwheelSlices.slice();
+
+  isSliceActive: boolean = true;
+
+  constructor(
+    private togoService: TogoService,
+    private spinningWheelService: SpinningWheelService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    // Calculate the rotation angle for each spin
-    this.randomAngle = Math.ceil(Math.random() * 3600);
-    console.log(this.randomAngle);
+    this.route.data.subscribe((data: { wheel: TogoPlace[] }) => {
+      const places = data.wheel;
+      this.togoService.setPlaces(places);
 
-    this.numberOfSlices = this.data.length;
-
-    // Calculate the angle in degrees for each slice based on degrees in a circle)
-    this.sliceCircleAngle = 360 / this.numberOfSlices;
-    console.log('size of each slice ' + this.sliceCircleAngle);
-    let renderedSlice = this.sliceCircleAngle + 10;
-    console.log('renderedSlice ' + renderedSlice);
-
-    this.data.forEach((element, index) => {
-      debugger;
-      index++;
-      const backgroundColor = this.generatePastelColor(index);
-      const sliceBackgroundColor = backgroundColor;
-      const sliceTransform = 'rotate(' + this.sliceCircleAngle * index + 'deg)';
-      const sliceClipPath =
-        'polygon(0 0, ' +
-        this.sliceCircleAngle +
-        '% 0, 100% 100%, 0 ' +
-        this.sliceCircleAngle +
-        '%)';
-      this.sliceStyles.push({
-        'background-color': sliceBackgroundColor,
-        transform: sliceTransform,
-        'clip-path': sliceClipPath,
-      });
+      this.wheelSlices = places
+        .filter((place) => place.cuisine)
+        .reduce((uniqueArray, place) => {
+          if (!uniqueArray.some((item) => item.cuisine === place.cuisine)) {
+            uniqueArray.push({ cuisine: place.cuisine, isActive: true });
+          }
+          return uniqueArray;
+        }, []);
+      this.spinningWheelService.setWheelSlices(this.wheelSlices);
     });
-    debugger;
-    console.log(this.sliceStyles);
   }
 
-  ngAfterViewInit() {}
+  getIndex = () =>
+    Math.floor(
+      this.numberOfSlices - (this.ang / this.TAU) * this.numberOfSlices
+    ) % this.numberOfSlices;
+
+  ngAfterViewInit() {
+    this.activeWheelSlices = this.wheelSlices.filter((slice) => slice.isActive);
+
+    this.numberOfSlices = this.activeWheelSlices.length;
+
+    const canvas = this.canvas.nativeElement;
+    this.context = canvas.getContext('2d');
+
+    const dia = canvas.width;
+    const rad = dia / 2;
+    const arc = this.TAU / this.numberOfSlices;
+
+    //* Get index of current sector */
+
+    this.activeWheelSlices.forEach((element, index) => {
+      const ang = arc * index;
+      this.context.save();
+      // COLOR
+      this.context.beginPath();
+      let color = this.generatePastelColor(index);
+      this.context.fillStyle = color;
+      this.context.moveTo(rad, rad);
+      this.context.arc(rad, rad, rad, ang, ang + arc);
+      this.context.lineTo(rad, rad);
+      this.context.fill();
+
+      // TEXT
+      this.context.shadowColor = 'black';
+      this.context.shadowBlur = 7;
+      this.context.translate(rad, rad);
+      this.context.rotate(ang + arc / 2);
+      this.context.textAlign = 'right';
+      this.context.fillStyle = '#fff';
+      this.context.font = 'bold 25px sans-serif';
+      this.context.fillText(element.cuisine, rad - 10, 10);
+      this.context.restore();
+    });
+    this.rotate();
+  }
+
+  rotate() {
+    const sector = this.activeWheelSlices[this.getIndex()];
+    this.context.canvas.style.transform = `rotate(${
+      this.ang - this.PI / 2
+    }rad)`;
+    this.spinBtnText = this.angVel
+      ? this.activeWheelSlices[this.getIndex()].cuisine
+      : this.spinBtnText;
+    console.log(this.activeWheelSlices);
+  }
 
   generatePastelColor(index: number) {
     const number = index + 1;
@@ -79,34 +144,48 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
     const color = `rgb(${r},${g},${b},0.6)`;
     return color;
   }
+
   onSpin() {
-    // const selectedElement = document.getElementsByClassName('selected');
-    // while (selectedElement.length > 0) {
-    //   selectedElement[0].classList.remove('selected');
-    // }
+    if (this.isSpinning) return;
+    this.isSpinning = true;
+    this.isAccelerating = true;
+    this.angVelMax = this.rand(0.25, 0.4);
+    this.engine(); // Start engine!
+  }
 
-    // Calculate the rotation angle to which the wheel should be rotated based on the random angle and the slice angle
-    let rotation =
-      Math.round(this.randomAngle / this.sliceCircleAngle) *
-      this.sliceCircleAngle;
+  frame() {
+    if (!this.isSpinning) return;
+    if (this.angVel >= this.angVelMax) this.isAccelerating = false;
+    // Accelerate
+    if (this.isAccelerating) {
+      this.angVel ||= this.angVelMin; // Initial velocity kick
+      this.angVel *= 1.06; // Accelerate
+    }
+    // Decelerate
+    else {
+      this.isAccelerating = false;
+      this.angVel *= this.friction; // Decelerate by friction
+      // SPIN END:
+      if (this.angVel < this.angVelMin) {
+        this.isSpinning = false;
+        this.angVel = 0;
+        cancelAnimationFrame(this.animFrame);
+      }
+    }
+    this.ang += this.angVel; // Update angle
+    this.ang %= this.TAU; // Normalize angle
+    this.rotate(); // CSS rotate!
+  }
 
-    // Calculate the picked slice index
-    let pickedIndex = Math.round(
-      this.data.length - (rotation % 360) / this.sliceCircleAngle
-    );
-    pickedIndex =
-      pickedIndex >= this.data.length
-        ? pickedIndex % this.data.length
-        : pickedIndex;
+  engine() {
+    this.frame();
+    this.animFrame = requestAnimationFrame(this.engine.bind(this));
+  }
 
-    // let pickedSlice = this.wheelOptions.get(pickedIndex);
-    // pickedSlice.nativeElement.classList.add('selected');
+  rand = (m, M) => Math.random() * (M - m) + m;
 
-    console.log(pickedIndex + ' ' + this.data[pickedIndex]);
-    console.log(this.sliceStyles[pickedIndex]);
-
-    this.wheelStyle = { transform: 'rotate(' + this.randomAngle + 'deg)' };
-    this.randomAngle += Math.ceil(Math.random() * 3600);
-    console.log(this.randomAngle);
+  toggleSlice(index: number) {
+    this.spinningWheelService.toggleSlice(index);
+    this.wheelSlices[index].isActive = !this.wheelSlices[index].isActive;
   }
 }

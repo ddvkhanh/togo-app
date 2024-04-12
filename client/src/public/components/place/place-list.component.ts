@@ -37,9 +37,7 @@ export class PlaceListComponent implements OnInit {
 
   ngOnInit() {
     this.togoService.fetchPlaces().subscribe((places) => {
-      this.places = places;
       this.togoService.setPlaces(places);
-      this.updatePlaceDescriptionsAndPagination();
       this.menuService.setPlaceDescriptions(this.placeDescriptions);
     });
 

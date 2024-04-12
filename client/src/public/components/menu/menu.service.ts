@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuService {
+  @ViewChild('search') searchInput: ElementRef;
   newSearchEvent = new BehaviorSubject<string>(null);
   placeDescriptionsChanged = new BehaviorSubject<Array<String>>([]);
+  searchResultChanged = new BehaviorSubject<string>(null);
   placeDescriptions = [];
   searchText: string;
   isKeywordFound: boolean;
@@ -26,18 +28,13 @@ export class MenuService {
   }
 
   getPlaceDetail(keyword: string) {
-    (<HTMLInputElement>document.getElementById('search-input')).value = keyword;
+    this.searchResultChanged.next(keyword); //update the value of search input box value
     this.searchText = keyword;
     this.newSearchEvent.next(this.searchText);
   }
 
   clearSearch() {
-    if (
-      (<HTMLInputElement>document.getElementById('search-input')).value
-        .length == 0
-    ) {
-      this.searchText = null;
-      this.newSearchEvent.next(null);
-    }
+    this.searchText = null;
+    this.newSearchEvent.next(null);
   }
 }

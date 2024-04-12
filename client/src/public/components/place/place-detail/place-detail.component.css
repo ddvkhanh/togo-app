@@ -34,6 +34,17 @@ input .toggle {
   color: #ffffff;
 }
 
+.cuisine-tag {
+  border: 1px solid #45858c;
+  border-radius: 5px;
+  padding: 3px 7px;
+  color: #45858c;
+}
+
 #place-location {
   font-style: italic;
+}
+
+.price::after {
+  content: "/ per person (approx.)";
 }

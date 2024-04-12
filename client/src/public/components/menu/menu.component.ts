@@ -13,12 +13,16 @@ export class MenuComponent implements OnInit {
   newSearchEvent = new BehaviorSubject<string>(null);
   isCollapsed: boolean = false;
   searchText = null;
+  resultText: string;
 
   constructor(private menuService: MenuService) {}
 
   ngOnInit(): void {
     this.menuService.placeDescriptionsChanged.subscribe(
       (desc) => (this.placeDescriptions = desc)
+    );
+    this.menuService.searchResultChanged.subscribe(
+      (keyword) => (this.resultText = keyword)
     );
   }
 

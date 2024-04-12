@@ -4,7 +4,10 @@ export class TogoPlace {
     public isVisited?: boolean,
     public name?: string,
     public category?: string,
+    public cuisine?: string,
     public description?: string,
-    public location?: string
+    public price?: number,
+    public location?: string,
+    public lastUpdatedWhen?: Date
   ) {}
 }

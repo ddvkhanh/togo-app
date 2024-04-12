@@ -1,19 +1,17 @@
 <div class="container">
-    <div class="spin-btn" (click)="onSpin()">Spin</div>
-
-    <div #wheel class="wheel" [ngStyle]="wheelStyle">
-        <div #wheelOptions class="wheel-option" *ngFor="let item of data; let i = index" [style.--i]="i+1"
-            [ngStyle]="sliceStyles[i]">
-            <span>{{item}}</span>
+    <div class="row">
+        <div class="wheelOfFortune col-6 mt-5">
+            <canvas #wheel width="500" height="500" style="width:100%" class="wheel">
+            </canvas>
+            <div #spin class="spin-btn" (click)="onSpin()">{{spinBtnText}}</div>
         </div>
-        <!-- <div class="wheel-option" style="--i:1;"><span>100</span></div>
-        <div class="wheel-option" style="--i:2;"><span>400</span></div>
-        <div class="wheel-option" style="--i:3;"><span>200</span></div>
-        <div class="wheel-option" style="--i:4;"><span>500</span></div>
-        <div class="wheel-option" style="--i:5;"><span>100</span></div>
-        <div class="wheel-option" style="--i:6;"><span>700</span></div>
-        <div class="wheel-option" style="--i:7;"><span>50</span></div>
-        <div class="wheel-option" style="--i:8;"><span>60</span></div> -->
-
+        <div class="col-6 mt-5 wheel-input ">
+            <p>Select from availble cuisines from your list</p>
+            <div class="btn wheel-input-btn me-2" *ngFor="let item of wheelSlices; let i = index;"
+                (click)="toggleSlice(i)" [ngClass]="item.isActive===true?'isActive':'isInactive'"><i
+                    class="fas fa-times me-1"></i>{{item.cuisine}}
+            </div>
+        </div>
     </div>
+
 </div>

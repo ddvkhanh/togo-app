@@ -24,6 +24,7 @@ export class TogoService {
 
   setPlaces(places: TogoPlace[]): void {
     this.places = places;
+    this.placesChanged.next(this.places.slice());
   }
 
   deletePlace(id: string) {

@@ -1,9 +1,12 @@
 <div class="card mb-3" [ngClass]=" { completed: place.isVisited }">
     <div class="card-header d-flex">
-        <div class="col-6 "><i style="color:#45858C;" class="fa-solid me-2"
-                [ngClass]="getIconPerCategory(place.category)"></i>{{
-            place.category }}
+        <div class="col-6">
+            <div><i style="color:#45858C;" class="fa-solid me-2" [ngClass]="getIconPerCategory(place.category)"></i>{{
+                place.category }}<span class="cuisine-tag mx-2" *ngIf="place.cuisine">{{ place.cuisine }}</span>
+            </div>
         </div>
+
+
         <div class="col-6 action-column">
             <button class="btn btn-action edit-btn" routerLink="/form/edit/{{ place._id }}" value="{{ place._id }}">
                 <i class="fas fa-edit"></i> Edit
@@ -18,9 +21,14 @@
         <h5 class="card-title">{{ place.name }}
             <span class="status-tag" *ngIf="place.isVisited"><i style="color:#ffffff"
                     class="me-2 fa-solid fa-shoe-prints"></i>Visited</span>
-
         </h5>
         <p class="card-text">{{ place.description }}</p>
-        <p class="card-text" id="place-location">{{ place.location }}</p>
+        <div class="card-text price" *ngIf="place.price"><i class="fas fa-hand-holding-usd me-2"></i>{{ place.price |
+            currency:
+            'AUD' }} </div>
+        <div class="card-text" id="place-location"><i class="fas fa-map-marker-alt me-2"></i>
+            {{ place.location }}
+        </div>
+
     </div>
 </div>

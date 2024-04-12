@@ -16,8 +16,9 @@
       </ul>
     </div>
     <form class="d-flex">
-      <input class="form-control" id="search-input" name="search-input" type="search" placeholder="I am craving for..."
-        aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()">
+      <input #search class="form-control" id="search-input" name="search-input" type="search"
+        placeholder="I am craving for..." aria-label="Search" [(ngModel)]="searchText" (search)="onClearInput()"
+        [value]="resultText">
       <button class="btn btn-outline-light ms-50" id="search-btn" type="submit" (click)="onSearchButtonClick()"><i
           class="fa-solid fa-magnifying-glass"></i></button>
     </form>

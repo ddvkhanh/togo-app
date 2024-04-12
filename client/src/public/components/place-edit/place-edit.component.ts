@@ -45,8 +45,11 @@ export class PlaceEditComponent implements OnInit {
         isVisited: form.value.isVisited,
         name: form.value.name,
         category: form.value.category,
+        cuisine: form.value.cuisine,
         description: form.value.description,
+        price: form.value.price,
         location: form.value.location,
+        lastUpdatedWhen: new Date(),
       };
 
       if (this.editMode) {
@@ -65,18 +68,14 @@ export class PlaceEditComponent implements OnInit {
   }
 
   private async createForm() {
-    let isVisited = false;
-    let name = '';
-    let category = '';
-    let description = '';
-    let location = '';
-
     this.form = this.fb.group({
       isVisited: false,
       name: ['', Validators.required],
       category: ['', Validators.required],
+      cuisine: ['', Validators.pattern('^[a-zA-Z]*$')],
       description: ['', [Validators.required, Validators.minLength(5)]],
-      location: ['', Validators.required],
+      price: ['', Validators.pattern('^-?\\d*(\\.\\d+)?$')],
+      location: ['', [Validators.required, Validators.pattern('^\\w*$')]],
     });
 
     if (this.editMode) {
@@ -109,5 +108,14 @@ export class PlaceEditComponent implements OnInit {
   }
   get location() {
     return this.form.get('location');
+  }
+  get cuisine() {
+    return this.form.get('cuisine');
+  }
+  get price() {
+    return this.form.get('price');
+  }
+  get lastUpdatedWhen() {
+    return this.form.get('lastUpdatedWhen');
   }
 }

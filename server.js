@@ -36,8 +36,11 @@ app.post("/api/togo", async (req, res) => {
     isVisited: req.body.isVisited,
     name: req.body.name,
     category: req.body.category,
+    cuisine: req.body.cuisine,
     description: req.body.description,
+    price: req.body.price,
     location: req.body.location,
+    lastUpdatedWhen: req.body.lastUpdatedWhen,
   });
 
   try {
@@ -58,8 +61,11 @@ app.put("/api/togo/:id", async (req, res) => {
           isVisited: req.body.isVisited,
           name: req.body.name,
           category: req.body.category,
+          cuisine: req.body.cuisine,
           description: req.body.description,
+          price: req.body.price,
           location: req.body.location,
+          lastUpdatedWhen: req.body.lastUpdatedWhen,
         },
       }
     );
