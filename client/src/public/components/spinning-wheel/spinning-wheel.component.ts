@@ -40,20 +40,6 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
   wheelSlices: WheelSlice[] = new Array();
   activeWheelSlices: WheelSlice[] = new Array();
 
-  // ogwheelSlices = [
-  //   { cuisine: 'Korean', isActive: true },
-  //   { cuisine: 'Vietnamese', isActive: true },
-  //   { cuisine: 'Mexican', isActive: true },
-  //   { cuisine: 'Greek', isActive: true },
-  //   { cuisine: 'Chinese', isActive: true },
-  //   { cuisine: 'Thai', isActive: true },
-  //   { cuisine: 'Taiwan', isActive: true },
-  //   { cuisine: 'India', isActive: true },
-  //   { cuisine: 'Italian', isActive: true },
-  // ];
-
-  // wheelSlices = this.ogwheelSlices.slice();
-
   isSliceActive: boolean = true;
 
   constructor(
@@ -66,17 +52,39 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
     this.route.data.subscribe((data: { wheel: TogoPlace[] }) => {
       const places = data.wheel;
       this.togoService.setPlaces(places);
-
-      this.wheelSlices = places
-        .filter((place) => place.cuisine)
-        .reduce((uniqueArray, place) => {
-          if (!uniqueArray.some((item) => item.cuisine === place.cuisine)) {
-            uniqueArray.push({ cuisine: place.cuisine, isActive: true });
-          }
-          return uniqueArray;
-        }, []);
-      this.spinningWheelService.setWheelSlices(this.wheelSlices);
+      this.updateWheelSlices(places);
     });
+
+    this.spinningWheelService.sliceChanged.subscribe((slices: WheelSlice[]) => {
+      this.updateWheelSlices(slices);
+    });
+  }
+
+  updateWheelSlices(data: (TogoPlace | WheelSlice)[]) {
+    //if TogoPlace: check for unique cuisine, default isActive = true;
+    //if WheelSlice: return as is
+    const uniqueCuisines = [
+      ...new Set(
+        data.filter((item) => item && item.cuisine).map((item) => item.cuisine)
+      ),
+    ];
+
+    const wheelSlices: WheelSlice[] = uniqueCuisines.map((cuisine) => {
+      const existingSlice = data.find(
+        (slice: TogoPlace | WheelSlice) =>
+          slice instanceof WheelSlice && slice.cuisine === cuisine
+      ) as WheelSlice;
+      const isActive = existingSlice ? existingSlice.isActive : true;
+      return new WheelSlice(cuisine, isActive);
+    });
+
+    this.wheelSlices = wheelSlices;
+
+    this.activeWheelSlices = this.wheelSlices.filter((slice) => slice.isActive);
+    this.numberOfSlices = this.activeWheelSlices.length;
+    this.spinningWheelService.setWheelSlices(this.wheelSlices);
+
+    this.initSpinningWheel();
   }
 
   getIndex = () =>
@@ -85,12 +93,15 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
     ) % this.numberOfSlices;
 
   ngAfterViewInit() {
-    this.activeWheelSlices = this.wheelSlices.filter((slice) => slice.isActive);
+    this.initSpinningWheel();
+  }
 
-    this.numberOfSlices = this.activeWheelSlices.length;
-
+  initSpinningWheel() {
     const canvas = this.canvas.nativeElement;
     this.context = canvas.getContext('2d');
+
+    // Clear the entire canvas before drawing the new content
+    this.context.clearRect(0, 0, canvas.width, canvas.height);
 
     const dia = canvas.width;
     const rad = dia / 2;
@@ -111,8 +122,8 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
       this.context.fill();
 
       // TEXT
-      this.context.shadowColor = 'black';
-      this.context.shadowBlur = 7;
+      //this.context.shadowColor = 'black';
+      //this.context.shadowBlur = 7;
       this.context.translate(rad, rad);
       this.context.rotate(ang + arc / 2);
       this.context.textAlign = 'right';
@@ -185,7 +196,8 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
   rand = (m, M) => Math.random() * (M - m) + m;
 
   toggleSlice(index: number) {
-    this.spinningWheelService.toggleSlice(index);
     this.wheelSlices[index].isActive = !this.wheelSlices[index].isActive;
+
+    this.spinningWheelService.toggleSlice(index);
   }
 }
