@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SpinningWheelService } from './spinning-wheel.service';
 import { Observable } from 'rxjs';
 import { TogoService } from './togo.service';
@@ -14,7 +10,7 @@ interface WheelSlice {
   isActive: boolean;
 }
 @Injectable({ providedIn: 'root' })
-export class WheelResolver implements Resolve<TogoPlace[]> {
+export class WheelResolver  {
   constructor(private togoService: TogoService) {}
 
   resolve(
