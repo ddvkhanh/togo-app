@@ -16,4 +16,3 @@ client/e2e/*.js
 client/e2e/*.map
 
 .env
-package-lock.json
