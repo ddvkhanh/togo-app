@@ -23,6 +23,8 @@
     "@angular/platform-browser": "^17.3.4",
     "@angular/platform-browser-dynamic": "^17.3.4",
     "@angular/router": "^17.3.4",
+    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@popperjs/core": "^2.11.8",
     "@types/jasmine": "^4.3.1",
     "@types/node": "^18.16.3",
     "bootstrap": "^5.2.3",
@@ -32,10 +34,10 @@
     "nodemon": "^3.1.0",
     "rxjs": "~7.5.7",
     "tslib": "^2.5.0",
-    "typescript": "~5.4.5",
     "zone.js": "~0.14.4"
   },
   "devDependencies": {
+    "@angular/localize": "^17.3.4",
     "jasmine-core": "~4.4.0",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "^6.4.2",
@@ -45,6 +47,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "protractor": "^7.0.0",
     "ts-node": "~10.9.1",
-    "tslint": "~6.1.0"
+    "tslint": "~6.1.0",
+    "typescript": "^5.4.5"
   }
 }

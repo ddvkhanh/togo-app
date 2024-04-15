@@ -19,6 +19,7 @@ import { PlaceDetailComponent } from './components/place/place-detail/place-deta
 import { PlaceListComponent } from './components/place/place-list.component';
 import { PaginationFilter } from './common/pipe/paginationFilter.pipe';
 import { SpinningWheelComponent } from './components/spinning-wheel/spinning-wheel.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SpinningWheelComponent } from './components/spinning-wheel/spinning-whe
     HttpClientModule,
     RouterModule,
     routing,
+    NgbModule,
   ],
   providers: [SearchFilterTablePipe, CategoryVisitFilterPipe],
   bootstrap: [AppComponent],

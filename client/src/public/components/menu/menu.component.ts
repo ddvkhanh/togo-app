@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TogoService } from 'src/public/common/service/togo.service';
 import { MenuService } from './menu.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { MenuService } from './menu.service';
 export class MenuComponent implements OnInit {
   placeDescriptions = [];
   newSearchEvent = new BehaviorSubject<string>(null);
-  isCollapsed: boolean = false;
+  isCollapsed: boolean = true;
   searchText = null;
   resultText: string;
 

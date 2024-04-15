@@ -63,6 +63,9 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
   updateWheelSlices(data: (TogoPlace | WheelSlice)[]) {
     //if TogoPlace: check for unique cuisine, default isActive = true;
     //if WheelSlice: return as is
+    if (data == undefined) {
+      return;
+    }
     const uniqueCuisines = [
       ...new Set(
         data.filter((item) => item && item.cuisine).map((item) => item.cuisine)
@@ -80,8 +83,12 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
 
     this.wheelSlices = wheelSlices;
 
-    this.activeWheelSlices = this.wheelSlices.filter((slice) => slice.isActive);
-    this.numberOfSlices = this.activeWheelSlices.length;
+    this.activeWheelSlices = this.wheelSlices
+      ? this.wheelSlices.filter((slice) => slice.isActive)
+      : null;
+    this.numberOfSlices = this.activeWheelSlices
+      ? this.activeWheelSlices.length
+      : 0;
     this.spinningWheelService.setWheelSlices(this.wheelSlices);
 
     this.initSpinningWheel();
@@ -97,42 +104,44 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
   }
 
   initSpinningWheel() {
-    const canvas = this.canvas.nativeElement;
-    this.context = canvas.getContext('2d');
+    if (this.canvas != undefined) {
+      const canvas = this.canvas.nativeElement;
+      this.context = canvas.getContext('2d');
 
-    // Clear the entire canvas before drawing the new content
-    this.context.clearRect(0, 0, canvas.width, canvas.height);
+      // Clear the entire canvas before drawing the new content
+      this.context.clearRect(0, 0, canvas.width, canvas.height);
 
-    const dia = canvas.width;
-    const rad = dia / 2;
-    const arc = this.TAU / this.numberOfSlices;
+      const dia = canvas.width;
+      const rad = dia / 2;
+      const arc = this.TAU / this.numberOfSlices;
 
-    //* Get index of current sector */
+      //* Get index of current sector */
 
-    this.activeWheelSlices.forEach((element, index) => {
-      const ang = arc * index;
-      this.context.save();
-      // COLOR
-      this.context.beginPath();
-      let color = this.generatePastelColor(index);
-      this.context.fillStyle = color;
-      this.context.moveTo(rad, rad);
-      this.context.arc(rad, rad, rad, ang, ang + arc);
-      this.context.lineTo(rad, rad);
-      this.context.fill();
+      this.activeWheelSlices.forEach((element, index) => {
+        const ang = arc * index;
+        this.context.save();
+        // COLOR
+        this.context.beginPath();
+        let color = this.generatePastelColor(index);
+        this.context.fillStyle = color;
+        this.context.moveTo(rad, rad);
+        this.context.arc(rad, rad, rad, ang, ang + arc);
+        this.context.lineTo(rad, rad);
+        this.context.fill();
 
-      // TEXT
-      //this.context.shadowColor = 'black';
-      //this.context.shadowBlur = 7;
-      this.context.translate(rad, rad);
-      this.context.rotate(ang + arc / 2);
-      this.context.textAlign = 'right';
-      this.context.fillStyle = '#fff';
-      this.context.font = 'bold 25px sans-serif';
-      this.context.fillText(element.cuisine, rad - 10, 10);
-      this.context.restore();
-    });
-    this.rotate();
+        // TEXT
+        //this.context.shadowColor = 'black';
+        //this.context.shadowBlur = 7;
+        this.context.translate(rad, rad);
+        this.context.rotate(ang + arc / 2);
+        this.context.textAlign = 'right';
+        this.context.fillStyle = '#fff';
+        this.context.font = 'bold 25px sans-serif';
+        this.context.fillText(element.cuisine, rad - 10, 10);
+        this.context.restore();
+      });
+      this.rotate();
+    }
   }
 
   rotate() {
@@ -143,7 +152,6 @@ export class SpinningWheelComponent implements OnInit, AfterViewInit {
     this.spinBtnText = this.angVel
       ? this.activeWheelSlices[this.getIndex()].cuisine
       : this.spinBtnText;
-    console.log(this.activeWheelSlices);
   }
 
   generatePastelColor(index: number) {
